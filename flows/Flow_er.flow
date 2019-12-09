@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <choices>
+        <name>CreateHarness</name>
+        <choiceText>Create a Test Harness For a Business Process</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Create Harness</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>FlowDocumentation</name>
+        <choiceText>Flow Documentation</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Flow Documentation</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Live org documentation and exploration, including Flow documentation, REST explorer, SOQL explorer</description>
+        <name>Organization</name>
+        <choiceText>Organization</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Organization</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>How are limits affected by your Flows?</description>
+        <name>Performance</name>
+        <choiceText>Performance</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Performance</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>RESTExplorer</name>
+        <choiceText>REST Explorer</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>REST Explorer</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>ScheduleTestRun</name>
+        <choiceText>Schedule Tests</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Schedule Tests</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>SOQLQuery</name>
+        <choiceText>Salesforce Object Query Language Explorer</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>SOQL Query Explorer</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Test Harnesses for generating and scheduling tests for your business processes</description>
+        <name>Tests</name>
+        <choiceText>Tests</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Tests</stringValue>
+        </value>
+    </choices>
+    <decisions>
+        <name>Org_Choices</name>
+        <label>Org Choices</label>
+        <locationX>636</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>REST_Option</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Org_Options</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>RESTExplorer</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>REST_Endpoints</targetReference>
+            </connector>
+            <label>REST Option</label>
+        </rules>
+        <rules>
+            <name>SOQL_Option</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Org_Options</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>SOQLQuery</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Salesforce_Object_Query</targetReference>
+            </connector>
+            <label>SOQL Option</label>
+        </rules>
+        <rules>
+            <name>Flow_Option</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Org_Options</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>FlowDocumentation</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Flow_Documentation</targetReference>
+            </connector>
+            <label>Flow Option</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>User choice of Performance, Organization, Tests options</description>
+        <name>P_O_T</name>
+        <label>P.O.T.</label>
+        <locationX>402</locationX>
+        <locationY>38</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Performance_Options</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Take_Me_To</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Performance</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Performance_Screen</targetReference>
+            </connector>
+            <label>Performance Options</label>
+        </rules>
+        <rules>
+            <name>Organization_Options</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Take_Me_To</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Organization</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Organization_Screen</targetReference>
+            </connector>
+            <label>Organization Options</label>
+        </rules>
+        <rules>
+            <name>Test_Options</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Take_Me_To</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Tests</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Tests_Screen</targetReference>
+            </connector>
+            <label>Test Options</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Test_Choices</name>
+        <label>Test Choices</label>
+        <locationX>338</locationX>
+        <locationY>392</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Create_Option</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Testing</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CreateHarness</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_a_Test_Harness_Record</targetReference>
+            </connector>
+            <label>Create Option</label>
+        </rules>
+        <rules>
+            <name>Schedule_Option</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Testing</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>ScheduleTestRun</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Choose_Test_Harness</targetReference>
+            </connector>
+            <label>Schedule Option</label>
+        </rules>
+    </decisions>
+    <description>Flow Developer Performance, Organization, Tests System</description>
+    <interviewLabel>Flow-er {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow-er</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <description>Flow developer Performance, Organization, &amp; Test System</description>
+        <name>Flow_er_P_O_T_S</name>
+        <label>Flow-er P.O.T.S.</label>
+        <locationX>50</locationX>
+        <locationY>189</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>P_O_T</targetReference>
+        </connector>
+        <fields>
+            <name>vision</name>
+            <fieldText>We can help with your Flow development tasks: Performance checking, Organization exploration and documentation, and Testing.  Where would you like help?</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Take_Me_To</name>
+            <choiceReferences>Performance</choiceReferences>
+            <choiceReferences>Organization</choiceReferences>
+            <choiceReferences>Tests</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Take Me To</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Organization_Screen</name>
+        <label>Organization Screen</label>
+        <locationX>537</locationX>
+        <locationY>195</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Org_Choices</targetReference>
+        </connector>
+        <fields>
+            <name>Org_Options</name>
+            <choiceReferences>FlowDocumentation</choiceReferences>
+            <choiceReferences>RESTExplorer</choiceReferences>
+            <choiceReferences>SOQLQuery</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Org Options</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Performance_Screen</name>
+        <label>Performance Screen</label>
+        <locationX>279</locationX>
+        <locationY>191</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Instructions</name>
+            <fieldText>To test the performance of your automations, use the limits checker and receive notices of performance in the Console utility bar.</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Tests_Screen</name>
+        <label>Tests Screen</label>
+        <locationX>405</locationX>
+        <locationY>195</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Test_Choices</targetReference>
+        </connector>
+        <fields>
+            <name>Testing</name>
+            <choiceReferences>CreateHarness</choiceReferences>
+            <choiceReferences>ScheduleTestRun</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Testing</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Flow_er_P_O_T_S</startElementReference>
+    <status>Draft</status>
+    <subflows>
+        <name>Choose_Test_Harness</name>
+        <label>Choose Test Harness</label>
+        <locationX>370</locationX>
+        <locationY>523</locationY>
+        <flowName>Test_Run_Options</flowName>
+    </subflows>
+    <subflows>
+        <name>Create_a_Test_Harness_Record</name>
+        <label>Create a Test Harness Record</label>
+        <locationX>111</locationX>
+        <locationY>545</locationY>
+        <connector>
+            <targetReference>Create_TestHarness_Data</targetReference>
+        </connector>
+        <flowName>TestHarnessUI</flowName>
+        <outputAssignments>
+            <assignToReference>ThisTestHarness</assignToReference>
+            <name>DeveloperName</name>
+        </outputAssignments>
+    </subflows>
+    <subflows>
+        <name>Create_TestHarness_Data</name>
+        <label>Create TestHarness Data</label>
+        <locationX>239</locationX>
+        <locationY>583</locationY>
+        <flowName>TestDataCreator</flowName>
+        <inputAssignments>
+            <name>TestHarnessDevName</name>
+            <value>
+                <elementReference>ThisTestHarness</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Flow_Documentation</name>
+        <label>Flow Documentation</label>
+        <locationX>539</locationX>
+        <locationY>552</locationY>
+        <flowName>RESTFlow</flowName>
+    </subflows>
+    <subflows>
+        <name>REST_Endpoints</name>
+        <label>REST Endpoints</label>
+        <locationX>694</locationX>
+        <locationY>551</locationY>
+        <flowName>RESTexplorer</flowName>
+    </subflows>
+    <subflows>
+        <name>Salesforce_Object_Query</name>
+        <label>Salesforce Object Query</label>
+        <locationX>826</locationX>
+        <locationY>551</locationY>
+        <flowName>SObjectExplorer</flowName>
+    </subflows>
+    <subflows>
+        <name>Select_an_Object_for_Test_Data</name>
+        <label>Select an Object for Test Data</label>
+        <locationX>867</locationX>
+        <locationY>50</locationY>
+        <flowName>SObjectExplorer</flowName>
+        <inputAssignments>
+            <name>TestHarnessDevName</name>
+            <value>
+                <elementReference>ThisTestHarness</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>ThisTestHarness</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>thisTestHarnessID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,44 @@
+<aura:component implements="lightning:availableForFlowScreens,flexipage:availableForAllPageTypes" access="global" >
+
+    <!-- EMP API component default="/u/notifications/LimitsCheck" -->
+    <lightning:empApi aura:id="empApi" />
+    <aura:attribute name="channel" type="String" default="/u/notifications/LimitsCheck"/>
+
+    <!-- Holds the streaming event subscription -->
+    <aura:attribute name="subscription" type="Map" />
+
+  <aura:attribute name="notifications" type="List"/>
+  <aura:attribute name="isMuted" type="Boolean" default="false"/>
+  <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+  <aura:registerEvent name="toastEvent" type="force:showToast"/>
+  <div class="container">
+    <!-- Header -->
+    <div class="slds-p-around_x-small slds-border_bottom slds-theme_shade">
+      <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+        <div>
+          <span class="slds-badge">{!v.notifications.length}</span>
+        </div>
+        <div>
+          <lightning:buttonIcon onclick="{!c.onClear}" iconName="utility:delete" title="Clear notices"
+            alternativeText="Clear notices" variant="border-filled"/>
+          <lightning:buttonIcon onclick="{!c.onToggleMute}"
+            iconName="{!v.isMuted ? 'utility:announcement' : 'utility:ban'}"
+            title="{!v.isMuted ? 'Unmute notices' : 'Mute notices'}"
+            alternativeText="Toggle notices" variant="border-filled"/>
+        </div>
+      </div>
+    </div>
+    <!-- Notification list -->
+    <div class="slds-container_fluid slds-scrollable_y content">
+      <aura:iteration items="{!v.notifications}" var="notification">
+        <div class="slds-p-around_small slds-border_top">
+          <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+            <p>{!notification.message}</p>
+            <p class="slds-text-color_weak slds-p-left_x-small">{!notification.time}</p>
+          </div>
+        </div>
+      </aura:iteration>
+    </div>
+  </div>
+
+</aura:component>

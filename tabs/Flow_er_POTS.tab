@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <frameHeight>700</frameHeight>
+    <hasSidebar>false</hasSidebar>
+    <icon>FlowerPots/flowerpots.png</icon>
+    <label>Flow-er POTS</label>
+    <motif>Custom268: TV Widescreen</motif>
+    <url>/flow/Flow_er</url>
+    <urlEncodingKey>UTF-8</urlEncodingKey>
+</CustomTab>

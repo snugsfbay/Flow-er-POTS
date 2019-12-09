@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Run_Selected_Harness</name>
+        <label>Run Selected Harness</label>
+        <locationX>191</locationX>
+        <locationY>179</locationY>
+        <actionName>TestUtil</actionName>
+        <actionType>apex</actionType>
+    </actionCalls>
+    <dynamicChoiceSets>
+        <name>harnesschoice</name>
+        <dataType>String</dataType>
+        <displayField>DeveloperName</displayField>
+        <object>TestHarness__mdt</object>
+    </dynamicChoiceSets>
+    <interviewLabel>Test Run Options {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Test Run Options</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Harness_choice</name>
+        <label>Harness run choice</label>
+        <locationX>48</locationX>
+        <locationY>180</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Run_Selected_Harness</targetReference>
+        </connector>
+        <fields>
+            <name>Choose_a_test_harness</name>
+            <choiceReferences>harnesschoice</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Choose a test harness</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Harness_choice</startElementReference>
+    <status>Draft</status>
+</Flow>

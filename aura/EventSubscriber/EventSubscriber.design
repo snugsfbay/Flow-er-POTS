@@ -1,0 +1,3 @@
+<design:component label="Subscribe to Event">
+	<design:attribute name="channel" label="Path" default="/event/TestHarnessDeployed__e" description="Choose a Channel or Platform Event path" />
+</design:component>

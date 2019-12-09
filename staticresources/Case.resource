@@ -1,0 +1,2 @@
+Id,AccountId,Type,Status,Reason,Origin,Subject,Priority,Description,IsClosed,CreatedDate,ClosedDate
+1,99,Electrical,Closed,Equipment Complexity,Phone,Starting generator after electrical failure,High,,1,2010-07-20T01:00:00Z,2011-09-07T04:12:33Z

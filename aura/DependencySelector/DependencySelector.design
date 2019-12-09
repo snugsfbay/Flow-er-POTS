@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="outputFields" label="LC Selected Fields" />
+    <design:attribute name="outputObject" label="LC Selected Object" />		
+</design:component>

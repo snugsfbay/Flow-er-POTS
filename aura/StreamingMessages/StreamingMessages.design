@@ -1,0 +1,3 @@
+<design:component label="Subscribe to Channel">
+	<design:attribute name="channel" label="Path" datasource="/u/notifications/LimitsCheck, /u/notifications/TestErrors, /systemTopic/Logging" default="/u/notifications/LimitsCheck" description="Monitor Limits or Test Failures." />
+</design:component>

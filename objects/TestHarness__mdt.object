@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Description__c</fullName>
+        <description>Describe the business process as it relates to Flow (and Process Builder) automations that will be associated with a particular test harness.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Business Process Description</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <label>TestHarness</label>
+    <pluralLabel>TestHarnesses</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

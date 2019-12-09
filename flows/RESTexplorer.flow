@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>REST_Explorer</name>
+        <label>REST Explorer</label>
+        <locationX>427</locationX>
+        <locationY>167</locationY>
+        <actionName>RestRequestController</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>REST_result_JSON_string</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Fault_message</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>flowInput</name>
+            <value>
+                <stringValue>{!path},{!method},{!responseFormat},{!bodyContent},{!bodyContentType}</stringValue>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>OutputString</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <description>change body content types for response body</description>
+    <formulas>
+        <name>Explainer</name>
+        <dataType>String</dataType>
+        <expression>IF( CONTAINS({!$Flow.FaultMessage}, &quot;300&quot;), &quot;External ID is not unique.&quot;,
+IF( CONTAINS({!$Flow.FaultMessage}, &quot;400&quot;), &quot;Request not understood, possible content creation error.&quot;,
+IF( CONTAINS({!$Flow.FaultMessage}, &quot;401&quot;), &quot;User authorization error, org should have active My Domain and Flow cannot be run from Lightning Page&quot;,
+IF( CONTAINS({!$Flow.FaultMessage}, &quot;403&quot;), &quot;Request refused, bad ID or API limit exceeded.&quot;,
+IF( CONTAINS({!$Flow.FaultMessage}, &quot;404&quot;), &quot;Endpoint or Path not found.&quot;,
+IF( CONTAINS({!$Flow.FaultMessage}, &quot;500&quot;), &quot;Connection or Platform error.&quot;, null
+))))))</expression>
+    </formulas>
+    <interviewLabel>RESTexplorer {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>RESTexplorer</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Fault_message</name>
+        <label>An error occured</label>
+        <locationX>37</locationX>
+        <locationY>426</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Errors</name>
+            <fieldText>&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;{!Explainer}&lt;/B&gt;&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;{!$Flow.FaultMessage}&lt;/FONT&gt;&lt;/DIV&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <pausedText>{!$Flow.FaultMessage}</pausedText>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>eg: /services/data/v44.0/analytics/reports/00O1U000006JDBU
+
+Or
+
+/service/data
+
+Or 
+
+tooling/sobjects/flow/301c0000000EfNiAAK
+
+...</description>
+        <name>REST_Query</name>
+        <label>REST Query or Endpoint</label>
+        <locationX>348</locationX>
+        <locationY>23</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>REST_Explorer</targetReference>
+        </connector>
+        <fields>
+            <name>QueryPath</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Input</elementReference>
+            </defaultValue>
+            <fieldText>Relative Endpoint</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>REST_result_JSON_string</name>
+        <label>REST result JSON string</label>
+        <locationX>541</locationX>
+        <locationY>26</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>String</name>
+            <fieldText>&lt;p&gt;{!OutputString}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>REST_Query</startElementReference>
+    <status>Draft</status>
+    <textTemplates>
+        <name>bodyContent</name>
+        <text>{!nullValue}</text>
+    </textTemplates>
+    <textTemplates>
+        <description>application/json
+text/csv</description>
+        <name>bodyContentType</name>
+        <text>application/json</text>
+    </textTemplates>
+    <textTemplates>
+        <name>FlowInformationSummary</name>
+        <text>&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:18px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;{!thisMasterLabel}&lt;/B&gt;&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;&lt;I&gt;{!thisFullName} with ID: {!thisFlowID}&lt;/I&gt;&lt;/B&gt;&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Flow type:&lt;B&gt; {!thisProcessType}&lt;/B&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;{!thisDescription}&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Version &lt;B&gt;{!thisVersionNumber}&lt;/B&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Status: &lt;B&gt;{!thisStatus}&lt;/B&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Created: {!thisCreatedDate}&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Last Modified: {!thisLastModifiedDate}&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Managed/Unmanaged: {!thisManageableState}&lt;/FONT&gt;&lt;/DIV&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>GET
+POST
+
+for example</description>
+        <name>method</name>
+        <text>GET</text>
+    </textTemplates>
+    <textTemplates>
+        <description>sample
+tooling/sobjects/flow/301c0000000EfNiAAK</description>
+        <name>path</name>
+        <text>{!QueryPath}</text>
+    </textTemplates>
+    <textTemplates>
+        <description>JSON, Excel spreadsheet, CSV, etc
+
+application/json
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+text/csv ??
+X-PrettyPrint:1</description>
+        <name>responseFormat</name>
+        <text>application/json</text>
+    </textTemplates>
+    <variables>
+        <name>Input</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>/services/data/v44.0/analytics/reports/00O1U000006JDBU</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>nullValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Output</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>OutputString</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>thisCreatedDate</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisDescription</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisFlowID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisFullName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisLastModifiedDate</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisManageableState</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisMasterLabel</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisProcessType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>thisVersionNumber</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+</Flow>

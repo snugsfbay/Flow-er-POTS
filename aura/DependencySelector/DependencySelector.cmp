@@ -1,0 +1,42 @@
+<aura:component implements="lightning:availableForFlowScreens" 
+                controller="EnvironmentUtils"
+                access="global">
+    
+    <aura:attribute name="outputFields" type="String" default="createddate"/>
+    <aura:attribute name="outputObject" type="String" default="account"/>
+    
+    <aura:attribute name="QueryObjects" type="Map"  />
+	<aura:attribute name="QueryObjectsValue" type="String" default="account" />
+    
+    <aura:attribute name="FieldOptions" type="Map"  />
+	<aura:attribute name="FieldOptionsValue" type="String" default="createddate" />
+    
+    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-p-top_medium slds-p-bottom_medium slds-grid slds-grid slds-gutters" >
+        <div class="slds-col">
+        <lightning:radioGroup aura:id="objGroup" 
+                              name="Objects"
+                              label="Select an Object"
+                              options="{! v.QueryObjects }"
+                              value="{! v.outputObject }"
+                              onchange="{! c.resetResults }"
+                              />
+        </div>
+        <div class="slds-col">
+            <lightning:checkBoxGroup aura:id="fieldGroup"
+                                     name="Fields"
+                                     label="Select Fields"
+                                     options="{! v.FieldOptions }"
+                                     value="{! v.outputFields }"
+                                     onchange="{! c.handleChange }"
+                                     />
+
+
+        </div>    
+    </div>
+    
+	SELECT &nbsp; <strong>{!v.outputFields}</strong> FROM <strong>{!v.outputObject}</strong>
+    
+</aura:component>
